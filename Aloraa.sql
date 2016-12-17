@@ -1,11 +1,11 @@
 
 DROP TABLE IF EXISTS items_orders;
-DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS addresses;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS orders;
 
 CREATE TABLE IF NOT EXISTS users (
 	id MEDIUMINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS items (
     category_id MEDIUMINT NOT NULL,
 	name varchar(50) CHARACTER SET utf8 NOT NULL,
     description varchar(500) CHARACTER SET utf8 NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES categories(id)  ON DELETE RESTRICT
+    price INT NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS images (
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS orders (
     user_id MEDIUMINT NOT NULL,
     address_id MEDIUMINT NOT NULL,
     date DATETIME NOT NULL,
+    total_price INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (address_id) REFERENCES addresses(id)
 );
@@ -59,6 +61,7 @@ CREATE TABLE IF NOT EXISTS orders (
 CREATE TABLE IF NOT EXISTS items_orders (
 	item_id MEDIUMINT NOT NULL,
     order_id MEDIUMINT NOT NULL,
+    quantity INT NOT NULL,
 	FOREIGN KEY (item_id) REFERENCES items(id),
     FOREIGN KEY (order_id) REFERENCES orders(id),
     PRIMARY KEY (item_id, order_id)
