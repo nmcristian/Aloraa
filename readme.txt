@@ -22,3 +22,18 @@ pass: 1
 
 And you can add many more, but the test one should be generic & simple.
 I made all inputs to be required. I changed their type, but the CSS didn't work for input type='email', so I reverted it to 'text'. You should look into it.
+
+You can find in the php files examples of POST and SELECT. Iterations through rows from SELECT should be fairly easy, as in:
+	$stmt = $conn->prepare('SELECT * FROM users WHERE email = :email');
+	$stmt->bindParam(':email', $email);
+	$stmt->execute();
+	$rows = $stmt->fetchAll();
+	echo json_encode($rows);
+
+  foreach ($rows as $rs) {
+		$id = $rs['id'];
+		echo "";
+		echo $id;
+		echo "";
+		echo $rs['password'];
+	}
